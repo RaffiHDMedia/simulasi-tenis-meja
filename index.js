@@ -580,6 +580,125 @@ function hidePanel() {
   });
 }
 
+const trainingPrograms = {
+  service: {
+    title: "Program Latihan Servis",
+    schedule: [
+      {
+        day: "Senin",
+        activities: [
+          "Latihan servis pendek 20 menit",
+          "Servis panjang dengan variasi spin 15 menit",
+          "Target accuracy practice 10 menit",
+        ],
+      },
+      {
+        day: "Rabu",
+        activities: [
+          "Servis kombinasi forehand-backhand 25 menit",
+          "Latihan servis cepat 10 menit",
+          "Multi-ball service practice 10 menit",
+        ],
+      },
+      {
+        day: "Jumat",
+        activities: [
+          "Servis dengan tekanan waktu 15 menit",
+          "Servis placement training 20 menit",
+          "Match simulation 10 menit",
+        ],
+      },
+    ],
+  },
+  footwork: {
+    title: "Program Latihan Pergerakan Kaki",
+    schedule: [
+      {
+        day: "Selasa",
+        activities: [
+          "Side-to-side movement drill 15 menit",
+          "Forward-backward footwork 15 menit",
+          "Shadow play practice 15 menit",
+        ],
+      },
+      {
+        day: "Kamis",
+        activities: [
+          "Multi-direction movement 20 menit",
+          "Speed footwork drill 10 menit",
+          "Coordination training 15 menit",
+        ],
+      },
+      {
+        day: "Sabtu",
+        activities: [
+          "Endurance footwork 20 menit",
+          "Reaction time training 15 menit",
+          "Game situation practice 10 menit",
+        ],
+      },
+    ],
+  },
+  smash: {
+    title: "Program Latihan Pukulan Smash",
+    schedule: [
+      {
+        day: "Senin",
+        activities: [
+          "Basic smash technique 20 menit",
+          "Power development 15 menit",
+          "Timing practice 10 menit",
+        ],
+      },
+      {
+        day: "Rabu",
+        activities: [
+          "Angle smash training 20 menit",
+          "Counter-attack practice 15 menit",
+          "Speed smash drill 10 menit",
+        ],
+      },
+      {
+        day: "Jumat",
+        activities: [
+          "Combination smash 25 menit",
+          "Match point simulation 10 menit",
+          "Recovery practice 10 menit",
+        ],
+      },
+    ],
+  },
+  backhand: {
+    title: "Program Latihan Teknik Backhand",
+    schedule: [
+      {
+        day: "Selasa",
+        activities: [
+          "Basic backhand drive 20 menit",
+          "Backhand loop training 15 menit",
+          "Control practice 10 menit",
+        ],
+      },
+      {
+        day: "Kamis",
+        activities: [
+          "Backhand block defense 20 menit",
+          "Counter-attack backhand 15 menit",
+          "Spin variation 10 menit",
+        ],
+      },
+      {
+        day: "Sabtu",
+        activities: [
+          "Advanced backhand techniques 25 menit",
+          "Rally practice 15 menit",
+          "Match application 5 menit",
+        ],
+      },
+    ],
+  },
+};
+
 // Strategy Functions
 function createSchedule() {
   const strategy = document.getElementById("strategySelect").value;
