@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform Pembelajaran Teknik Tenis Meja</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+     <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --warning-color: #f39c12;
+            --dark-color: #2c3e50;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+            --border-radius: 12px;
+            --border-radius-lg: 20px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Section */
+        .header-section {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: var(--white);
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        /* Navigation */
+        .nav-section {
+            background: var(--white);
+            padding: 20px;
+        }
+
+        .nav-tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            border: none;
+        }
+
+        .nav-tab {
+            background: var(--light-bg);
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            padding: 15px 20px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: var(--transition);
+            text-align: center;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .nav-tab:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .nav-tab.active {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        /* Content Sections */
+        .content-wrapper {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-medium);
+            overflow: hidden;
+        }
+
+        .content-section {
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .section-title {
+            color: var(--dark-color);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Simulator Section */
+        .simulator-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .instruction-card {
+            background: linear-gradient(135deg, var(--secondary-color), #27ae60);
+            color: var(--white);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .racket-container {
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow-light);
+        }
+
+        .racket-svg {
+            max-width: 100%;
+            height: auto;
+            width: 300px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+        }
+
+        .interactive-element {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .interactive-element:hover {
+            filter: brightness(1.2);
+            transform: scale(1.02);
+        }
+
+        .detail-panel {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-top: 20px;
+            box-shadow: var(--shadow-medium);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .detail-panel.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .detail-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .technique-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .technique-item {
+            background: rgba(255,255,255,0.1);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .close-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.5);
+            color: var(--white);
+            border-radius: 25px;
+            padding: 8px 20px;
+            margin-top: 15px;
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            background: var(--white);
+            color: var(--primary-color);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            padding: 12px 16px;
+            font-size: 1rem;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Strategy Section */
+        .strategy-card {
+            background: linear-gradient(135deg, var(--warning-color), #e67e22);
+            color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .control-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
+            align-items: end;
+            margin: 20px 0;
+        }
+
+        .schedule-display {
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .schedule-item {
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid rgba(255,255,255,0.8);
+        }
+
+        /* Quiz Section */
+        .quiz-card {
+            background: linear-gradient(135deg, var(--secondary-color), #27ae60);
+            color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .quiz-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 8px;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: var(--white);
+            height: 100%;
+            border-radius: 4px;
+            width: 10%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .question-image {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        /* Quiz Image - Desktop and Mobile Responsive */
+        .quiz-image {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: var(--shadow-light);
+        }
+
+        .answer-option {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.4);
+            color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 15px 20px;
+            margin: 8px 0;
+            width: 100%;
+            text-align: left;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .answer-option:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(5px);
+        }
+
+        .answer-option.selected {
+            background: rgba(255,255,255,0.9);
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .results-card {
+            background: linear-gradient(135deg, var(--accent-color), #c0392b);
+            color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* Chart Container Styles - Responsive */
+        #chartContainer {
+            width: 100%;
+            max-width: 500px;
+            height: 250px;
+            margin: 20px auto;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        #resultChart {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 220px;
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 10px;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero-content {
+                padding: 30px 20px;
+            }
+
+            .nav-tabs {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .nav-tab {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .simulator-container {
+                gap: 20px;
+            }
+
+            .racket-container {
+                padding: 20px;
+            }
+
+            .racket-svg {
+                width: 250px;
+            }
+
+            .control-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .detail-panel {
+                padding: 20px;
+            }
+
+            .technique-item {
+                padding: 12px;
+            }
+
+            /* Mobile Quiz Image Optimization */
+            .quiz-image {
+                height: 150px;
+                width: 100%;
+                max-width: 280px;
+                margin: 10px auto;
+            }
+
+            .question-card {
+                padding: 20px;
+                margin: 15px 0;
+            }
+
+            .quiz-card {
+                padding: 20px;
+            }
+
+            .quiz-progress {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .answer-option {
+                padding: 12px 15px;
+                margin: 5px 0;
+                font-size: 0.9rem;
+            }
+
+            /* Mobile Chart Container */
+            #chartContainer {
+                max-width: 100%;
+                height: 200px;
+                margin: 15px auto;
+                padding: 10px;
+            }
+
+            #resultChart {
+                max-height: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .racket-svg {
+                width: 200px;
+            }
+
+            .content-section {
+                padding: 15px;
+            }
+
+            /* Extra Small Mobile Quiz Image */
+            .quiz-image {
+                height: 120px;
+                max-width: 250px;
+                margin: 8px auto;
+            }
+
+            .question-card {
+                padding: 15px;
+                margin: 10px 0;
+            }
+
+            .quiz-card {
+                padding: 15px;
+            }
+
+            .answer-option {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+
+            .quiz-progress {
+                font-size: 0.9rem;
+            }
+
+            /* Extra Small Mobile Chart */
+            #chartContainer {
+                height: 180px;
+                margin: 10px auto;
+                padding: 8px;
+            }
+
+            #resultChart {
+                max-height: 160px;
+            }
+        }
+
+        /* Desktop optimizations */
+        @media (min-width: 769px) {
+            .simulator-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+
+            .detail-panel {
+                margin-top: 0;
+            }
+
+            /* Desktop Quiz Image stays larger */
+            .quiz-image {
+                height: 220px;
+                max-width: 400px;
+            }
+
+            /* Desktop Chart Container */
+            #chartContainer {
+                max-width: 600px;
+                height: 280px;
+            }
+
+            #resultChart {
+                max-height: 250px;
+            }
+        }
+
+        /* Large Desktop */
+        @media (min-width: 1200px) {
+            .quiz-image {
+                height: 250px;
+                max-width: 450px;
+            }
+
+            /* Large Desktop Chart */
+            #chartContainer {
+                max-width: 650px;
+                height: 300px;
+            }
+
+            #resultChart {
+                max-height: 270px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <i class="fas fa-table-tennis floating-icon"></i>
+                    <span>Platform Pembelajaran Tenis Meja</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Kuasai teknik fundamental melalui pembelajaran interaktif!
+                </p>
+            </div>
+
+            <!-- Navigation -->
+            <div class="nav-section">
+                <div class="nav-tabs">
+                    <a href="#" class="nav-tab active" data-target="simulator">
+                        <i class="fas fa-mouse-pointer"></i>
+                        <span>Simulasi Interaktif</span>
+                    </a>
+                    <a href="#" class="nav-tab" data-target="tactics">
+                        <i class="fas fa-chess"></i>
+                        <span>Strategi Latihan</span>
+                    </a>
+                    <a href="#" class="nav-tab" data-target="quiz">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Evaluasi Pengetahuan</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Simulator Section -->
+            <div id="simulator" class="content-section">
+                <h2 class="section-title">
+                    <i class="fas fa-mouse-pointer"></i>
+                    Simulasi Interaktif
+                </h2>
+
+                <div class="instruction-card">
+                    <i class="fas fa-hand-pointer"></i>
+                    <strong>Sentuh area bet atau pegangan untuk mengeksplorasi teknik fundamental</strong>
+                </div>
+
+                <div class="simulator-container">
+                    <div class="racket-container">
+                        <svg class="racket-svg" viewBox="0 0 300 500" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Handle/Pegangan -->
+                            <rect x="130" y="320" width="40" height="160" fill="#8B4513" stroke="#654321" stroke-width="2" rx="8" class="interactive-element" data-target="handle" id="handle-section" />
+                            <!-- Blade/Bilah Bet -->
+                            <ellipse cx="150" cy="180" rx="80" ry="120" fill="#DC143C" stroke="#B22222" stroke-width="3" class="interactive-element" data-target="blade" id="blade-section" />
+                            <!-- Rubber/Karet -->
+                            <ellipse cx="150" cy="180" rx="75" ry="115" fill="#FF4500" stroke="#FF6347" stroke-width="2" class="interactive-element" data-target="rubber" id="rubber-section" />
+                            <!-- Hand/Tangan -->
+                            <circle cx="150" cy="400" r="35" fill="#FDBCB4" stroke="#F4A460" stroke-width="2" class="interactive-element" data-target="grip" id="grip-section" />
+                            <!-- Fingers -->
+                            <ellipse cx="120" cy="385" rx="8" ry="25" fill="#FDBCB4" stroke="#F4A460" stroke-width="1" class="interactive-element" data-target="grip" />
+                            <ellipse cx="135" cy="375" rx="8" ry="30" fill="#FDBCB4" stroke="#F4A460" stroke-width="1" class="interactive-element" data-target="grip" />
+                            <ellipse cx="165" cy="375" rx="8" ry="30" fill="#FDBCB4" stroke="#F4A460" stroke-width="1" class="interactive-element" data-target="grip" />
+                            <ellipse cx="180" cy="385" rx="8" ry="25" fill="#FDBCB4" stroke="#F4A460" stroke-width="1" class="interactive-element" data-target="grip" />
+                            <!-- Sweet Spot -->
+                            <circle cx="150" cy="150" r="15" fill="none" stroke="#FFD700" stroke-width="3" stroke-dasharray="5,5" class="interactive-element" data-target="sweetspot" id="sweetspot-section" />
+                            <!-- Labels -->
+                            <text x="220" y="100" fill="#2d3436" font-size="12" font-weight="bold">Zona Optimal</text>
+                            <line x1="200" y1="105" x2="165" y2="140" stroke="#2d3436" stroke-width="1" />
+                            <text x="200" y="180" fill="#2d3436" font-size="12" font-weight="bold">Permukaan Karet</text>
+                            <line x1="200" y1="185" x2="225" y2="180" stroke="#2d3436" stroke-width="1" />
+                            <text x="50" y="350" fill="#2d3436" font-size="12" font-weight="bold">Gagang</text>
+                            <line x1="90" y1="355" x2="130" y2="380" stroke="#2d3436" stroke-width="1" />
+                            <text x="50" y="420" fill="#2d3436" font-size="12" font-weight="bold">Cengkeraman</text>
+                            <line x1="85" y1="425" x2="115" y2="410" stroke="#2d3436" stroke-width="1" />
+                        </svg>
+                    </div>
+
+                    <div class="info-display">
+                        <!-- Detail Panels -->
+                        <div id="handle-details" class="detail-panel hidden">
+                            <h4 class="detail-title">
+                                <i class="fas fa-grip-horizontal"></i> Teknik Cengkeraman Gagang
+                            </h4>
+                            <ul class="technique-list">
+                                <li class="technique-item">
+                                    <strong>Gaya Jabat Tangan:</strong> Pegang gagang layaknya berjabat tangan, ibu jari dan telunjuk membentuk huruf V
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Gaya Penhold:</strong> Pegang gagang seperti memegang pena, ideal untuk pemain dengan gaya agresif
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Posisi Pergelangan:</strong> Jaga agar pergelangan tangan tetap rileks dan dapat bergerak bebas
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Kekuatan Genggaman:</strong> Hindari cengkeraman yang terlalu kuat, biarkan bet bergerak natural
+                                </li>
+                            </ul>
+                            <button class="close-btn" onclick="hidePanel()">Tutup</button>
+                        </div>
+
+                        <div id="blade-details" class="detail-panel hidden">
+                            <h4 class="detail-title">
+                                <i class="fas fa-circle"></i> Teknik Penggunaan Bilah
+                            </h4>
+                            <ul class="technique-list">
+                                <li class="technique-item">
+                                    <strong>Sudut Bilah:</strong> Sesuaikan sudut bilah dengan jenis pukulan (topspin, backspin, drive)
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Tempo Ayunan:</strong> Variasikan kecepatan ayunan sesuai dengan kondisi permainan
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Gerakan Lanjutan:</strong> Lanjutkan gerakan setelah kontak dengan bola untuk kontrol maksimal
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Waktu Kontak:</strong> Pukul bola pada titik tertinggi untuk hasil optimal
+                                </li>
+                            </ul>
+                            <button class="close-btn" onclick="hidePanel()">Tutup</button>
+                        </div>
+
+                        <div id="rubber-details" class="detail-panel hidden">
+                            <h4 class="detail-title">
+                                <i class="fas fa-certificate"></i> Teknik Pemanfaatan Karet
+                            </h4>
+                            <ul class="technique-list">
+                                <li class="technique-item">
+                                    <strong>Titik Kontak:</strong> Gunakan bagian tengah karet untuk kontrol terbaik
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Pembentukan Spin:</strong> Gesekan karet dengan bola menghasilkan putaran yang kuat
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Perawatan:</strong> Bersihkan karet setelah bermain untuk menjaga kualitas grip
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Variasi Teknik:</strong> Gunakan berbagai bagian karet untuk efek yang berbeda
+                                </li>
+                            </ul>
+                            <button class="close-btn" onclick="hidePanel()">Tutup</button>
+                        </div>
+
+                        <div id="grip-details" class="detail-panel hidden">
+                            <h4 class="detail-title">
+                                <i class="fas fa-hand-rock"></i> Teknik Cengkeraman dan Posisi Tangan
+                            </h4>
+                            <ul class="technique-list">
+                                <li class="technique-item">
+                                    <strong>Relaksasi:</strong> Jaga agar tangan dan pergelangan tetap rileks
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Fleksibilitas:</strong> Pergelangan tangan harus bisa bergerak bebas untuk variasi pukulan
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Posisi Jari:</strong> Jari telunjuk di belakang bilah untuk kontrol, ibu jari di samping
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Keseimbangan:</strong> Jaga keseimbangan antara kontrol dan kekuatan
+                                </li>
+                            </ul>
+                            <button class="close-btn" onclick="hidePanel()">Tutup</button>
+                        </div>
+
+                        <div id="sweetspot-details" class="detail-panel hidden">
+                            <h4 class="detail-title">
+                                <i class="fas fa-bullseye"></i> Zona Optimal - Area Terbaik
+                            </h4>
+                            <ul class="technique-list">
+                                <li class="technique-item">
+                                    <strong>Lokasi:</strong> Area tengah atas bilah, sekitar 2-3 cm dari ujung atas
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Kekuatan Maksimal:</strong> Pukulan di zona optimal menghasilkan kekuatan maksimal
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Kontrol Terbaik:</strong> Area ini memberikan kontrol dan akurasi tertinggi
+                                </li>
+                                <li class="technique-item">
+                                    <strong>Latihan:</strong> Fokus berlatih memukul bola menggunakan zona optimal secara konsisten
+                                </li>
+                            </ul>
+                            <button class="close-btn" onclick="hidePanel()">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tactics Section -->
+            <div id="tactics" class="content-section hidden">
+                <h2 class="section-title">
+                    <i class="fas fa-chess"></i>
+                    Strategi Latihan
+                </h2>
+
+                <div class="strategy-card fade-in">
+                    <h3><i class="fas fa-chess"></i> Modul Strategi Latihan</h3>
+                    <p>Pilih strategi yang ingin Anda dalami untuk mendapatkan program latihan mingguan yang terstruktur!</p>
+
+                    <div class="control-row">
+                        <div class="form-group">
+                            <label class="form-label"><strong>Pilih Fokus Latihan:</strong></label>
+                            <select class="form-select" id="strategySelect">
+                                <option value="">-- Pilih Fokus Latihan --</option>
+                                <option value="service">Servis (Service)</option>
+                                <option value="footwork">Pergerakan Kaki (Footwork)</option>
+                                <option value="smash">Pukulan Mematikan (Smash)</option>
+                                <option value="backhand">Teknik Backhand</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button class="btn-primary" onclick="createSchedule()">
+                                <i class="fas fa-calendar-plus"></i> Buat Program Latihan
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="programResult" class="schedule-display hidden">
+                        <h4><i class="fas fa-calendar-week"></i> Program Latihan Mingguan</h4>
+                        <div id="programContent"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div id="quiz" class="content-section hidden">
+                <h2 class="section-title">
+                    <i class="fas fa-question-circle"></i>
+                    Evaluasi Pengetahuan
+                </h2>
+
+                <div class="quiz-card fade-in">
+                    <h3><i class="fas fa-question-circle"></i> Evaluasi Pengetahuan</h3>
+                    <p>Uji pemahaman Anda tentang teknik-teknik fundamental tenis meja!</p>
+
+                    <div id="assessmentStart">
+                        <div class="control-row">
+                            <div class="form-group">
+                                <label class="form-label"><strong>Pilih Area Evaluasi:</strong></label>
+                                <select class="form-select" id="assessmentTopicSelect">
+                                    <option value="">-- Pilih Area Evaluasi --</option>
+                                    <option value="service">Servis (Service)</option>
+                                    <option value="footwork">Pergerakan Kaki (Footwork)</option>
+                                    <option value="smash">Pukulan Mematikan (Smash)</option>
+                                    <option value="backhand">Teknik Backhand</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button class="btn-primary" onclick="beginAssessment()">
+                                    <i class="fas fa-play"></i> Mulai Evaluasi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="assessmentContent" class="hidden">
+                        <div class="quiz-progress">
+                            <span>Pertanyaan <span id="currentQuestionNum">1</span> dari 10</span>
+                            <span>Nilai: <span id="currentScore">0</span> dari <span id="totalQuestions">10</span></span>
+                        </div>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+
+                        <div id="questionContainer">
+                            <!-- Questions will be loaded here -->
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn" disabled>
+                                <i class="fas fa-arrow-left"></i> Sebelumnya
+                            </button>
+                            <button class="btn-primary" onclick="nextQuestion()" id="nextBtn">
+                                Selanjutnya <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                <div id="assessmentResults" class="hidden">
+                  <div class="results-card">
+                      <h4><i class="fas fa-trophy"></i> Hasil Evaluasi</h4>
+                      <div id="finalScore"></div>
+                      <div id="recommendations"></div>
+
+                      <!-- Tambahkan canvas untuk chart -->
+                      <div id="chartContainer" style="width: 100%; height: 300px;">
+                          <canvas id="resultChart"></canvas>
+                      </div>
+
+                      <button class="btn-primary mt-3" onclick="restartQuiz()">
+                          <i class="fas fa-redo"></i> Ulangi Evaluasi
+                      </button>
+                  </div>
+              </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
